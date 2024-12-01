@@ -1,0 +1,1 @@
+tcc   -Wall -g -std=c99 main.c arm.c arm_mem.c dma.c io.c sdl.c sound.c timer.c video.c  -m32 -mconsole -mwindows -lSDL2 -lSDL2main -o gba1.exe

@@ -10,9 +10,6 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-
-//#include "minigb_apu.h"
-
 #include "minigb_new2.c"
 
 #define OPCREL(_) opcrel = (opcode - _) / 8

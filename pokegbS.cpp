@@ -167,15 +167,7 @@ int main() {
 
  SDL_setenv("SDL_AUDIODRIVER", "directsound", SDL_TRUE);
 
- /* Initialise frontend implementation, in this case, SDL2. */
-	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER | SDL_INIT_AUDIO) < 0)
-	{
-		char buf[128];
-		SDL_snprintf(buf, sizeof(buf),
-				"Unable to initialise SDL2: %s", SDL_GetError());
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", buf, NULL);
-		exit(EXIT_FAILURE);
-	}
+ SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER | SDL_INIT_AUDIO));
 
   SDL_Renderer *renderer = SDL_CreateRenderer(
       SDL_CreateWindow("2024MinPokegb", 10, 30, 800, 600, SDL_WINDOW_SHOWN), -1,
@@ -184,23 +176,19 @@ int main() {
   SDL_Texture *texture = SDL_CreateTexture(
       renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, 160, 144);
   key_state = SDL_GetKeyboardState(0);
-
-
   
-                 SDL_AudioDeviceID dev;
-                  SDL_AudioSpec want, have;
+  SDL_AudioDeviceID dev;
+  SDL_AudioSpec want, have;
+  want.freq = AUDIO_SAMPLE_RATE;
+  want.format   = AUDIO_S16,
+  want.channels = 2;
+  want.samples = AUDIO_SAMPLES;
+  want.callback = audio_callback;
+  want.userdata = NULL;
 
-		want.freq = AUDIO_SAMPLE_RATE;
-		want.format   = AUDIO_S16,
-		want.channels = 2;
-		want.samples = AUDIO_SAMPLES;
-		want.callback = audio_callback;
-		want.userdata = NULL;
-
-		
-                 dev = SDL_OpenAudioDevice(NULL, 0, &want, &have, 0);
-		audio_init();
-		SDL_PauseAudioDevice(dev, 0);
+  dev = SDL_OpenAudioDevice(NULL, 0, &want, &have, 0);
+  audio_init();
+  SDL_PauseAudioDevice(dev, 0);
 
   while (1) {
     prev_cycles = cycles;
